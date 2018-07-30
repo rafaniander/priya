@@ -1,0 +1,12 @@
+spring.main.allow-bean-definition-overriding: true
+security:
+  oauth2:
+    client:
+      clientId: 6cfa801205c1f03de5bd
+      clientSecret: 802f178c6374fad20ce5ff5affb7fa7fb35d93a0
+      accessTokenUri: https://github.com/login/oauth/access_token
+      userAuthorizationUri: https://github.com/login/oauth/authorize
+      clientAuthenticationScheme: form
+    resource:
+      userInfoUri: https://api.github.com/user
+      preferTokenInfo: false
