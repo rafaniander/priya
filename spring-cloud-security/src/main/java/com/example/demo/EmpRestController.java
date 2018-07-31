@@ -37,7 +37,11 @@ public class EmpRestController extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/", "/emp").permitAll().anyRequest().authenticated();
+		http.authorizeRequests()
+		.antMatchers("/", "/emp")
+		.permitAll()
+		.anyRequest()
+		.authenticated();
 	}
 
 }
