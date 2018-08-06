@@ -4,9 +4,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmpRestController extends WebSecurityConfigurerAdapter {
 
 	Map<Integer, Employee> empMap = new HashMap<>();
+
+	@Autowired
+	private OAuth2ClientContext clientContext;
 
 	@RequestMapping(value = "/emp", method = RequestMethod.GET)
 	public Collection<Employee> getEmployees() {
@@ -35,13 +40,16 @@ public class EmpRestController extends WebSecurityConfigurerAdapter {
 		return empMap.values();
 	}
 	
+	@RequestMapping("/acc_token")
+	public String getToken() {
+		String token = clientContext.getAccessToken().getValue();
+		System.out.println("access_token: " + token);
+		return token;
+	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-		.antMatchers("/", "/emp")
-		.permitAll()
-		.anyRequest()
-		.authenticated();
+		http.authorizeRequests().antMatchers("/", "/emp").permitAll().anyRequest().authenticated();
 	}
 
 }
